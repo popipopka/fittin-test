@@ -1,0 +1,30 @@
+from dataclasses import dataclass, field
+from datetime import datetime
+from decimal import Decimal
+from typing import List
+
+from src.core.model.value import Attribute
+
+
+@dataclass(eq=False)
+class Product:
+    id: int
+    category_id: int
+
+    name: str
+    description: str
+    price: Decimal
+
+    bucket_name: str
+    image_object_name: str
+
+    attributes: List[Attribute] = field(default_factory=list)
+    created_at: datetime = field(default_factory=datetime.now)
+
+    def __eq__(self, other):
+        if not isinstance(other, Product):
+            return False
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)
