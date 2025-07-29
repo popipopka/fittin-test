@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -6,7 +6,7 @@ from typing import Optional
 class Category:
     id: int
     name: str
-    parent_id: Optional[int] = None
+    parent_id: Optional[int] = field(default=None)
 
     def __eq__(self, other):
         if not isinstance(other, Category):
