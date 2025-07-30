@@ -20,4 +20,4 @@ def __load_config_class(profile: str) -> BaseConfig:
 
     module = importlib.import_module(module_name)
 
-    return getattr(module, class_name)
+    return getattr(module, class_name)()

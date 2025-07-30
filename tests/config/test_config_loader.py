@@ -1,6 +1,7 @@
 import os
 import sys
 import unittest
+from unittest.mock import patch
 
 
 class TestConfig(unittest.TestCase):
@@ -10,42 +11,39 @@ class TestConfig(unittest.TestCase):
 
     def test_config_import_default_profile(self):
         # Given
-        if "PROFILE" in os.environ:
-            del os.environ["PROFILE"]
-
         from src.config.local_config import LocalConfig
-        expected_class_name = LocalConfig.__name__
+        expected = LocalConfig()
 
         # When
         import src.config as config
-        actual_class_name = config.config.__name__
+        actual = config.config
 
         # Then
-        self.assertEqual(actual_class_name, expected_class_name)
+        self.assertEqual(expected, actual)
 
+    @patch.dict(os.environ,
+                {'PROFILE': 'local'},
+                clear=True)
     def test_config_import_local_profile(self):
         # Given
-        os.environ['PROFILE'] = 'local'
-
         from src.config.local_config import LocalConfig
-        expected_class_name = LocalConfig.__name__
+        expected = LocalConfig()
 
         # When
         import src.config as config
-        actual_class_name = config.config.__name__
+        actual = config.config
 
         # Then
-        self.assertEqual(actual_class_name, expected_class_name)
+        self.assertEqual(expected, actual)
 
+    @patch.dict(os.environ,
+                {'PROFILE': 'unknown'},
+                clear=True)
     def test_config_import_unknown_profile(self):
         # Given
-        profile = 'unknown'
-
-        os.environ['PROFILE'] = profile
-
         # When, Then
         with self.assertRaises(ValueError) as context:
             import src.config as config
             _ = config.config
 
-        self.assertEqual(f'Unknown profile: {profile}', str(context.exception))
+        self.assertEqual('Unknown profile: unknown', str(context.exception))
