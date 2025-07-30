@@ -35,6 +35,9 @@ class Cart:
 
         raise RecordNotFoundError.cart_item(self.id, product_id)
 
+    def empty(self) -> None:
+        self.items = []
+
     def __eq__(self, other):
         if not isinstance(other, Cart):
             return False

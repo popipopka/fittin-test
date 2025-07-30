@@ -11,7 +11,7 @@ from src.core.model.value import OrderItem
 
 class TestOrder(unittest.TestCase):
     def setUp(self):
-        self.order = Order(1, 1)
+        self.order = Order(id=1, user_id=1)
         self.item1 = OrderItem(1, Decimal('1'), 1)
         self.item2 = OrderItem(2, Decimal('2'), 2)
 
@@ -58,8 +58,8 @@ class TestOrder(unittest.TestCase):
 
     def test_equality(self):
         # Given
-        first = Order(1, 2)
-        second = Order(1, 4)
+        first = Order(id=1, user_id=2)
+        second = Order(id=1, user_id=4)
 
         # When, Then
         self.assertEqual(first, second)

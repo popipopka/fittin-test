@@ -87,6 +87,18 @@ class TestCart(unittest.TestCase):
             str(context.exception)
         )
 
+    def test_empty(self):
+        # Given
+        self.cart.add_item(self.item1)
+        self.cart.add_item(self.item2)
+
+        # When
+        self.cart.empty()
+
+        # Then
+        self.assertNotIn(self.item1, self.cart.items)
+        self.assertNotIn(self.item2, self.cart.items)
+
     def test_equality(self):
         # Given
         first = Cart(1, 2)
