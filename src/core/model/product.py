@@ -15,9 +15,6 @@ class Product:
     description: str
     price: Decimal
 
-    bucket_name: str
-    image_object_name: str
-
     attributes: List[Attribute] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.now)
 

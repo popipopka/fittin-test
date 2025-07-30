@@ -29,7 +29,7 @@ class TestCart(unittest.TestCase):
             self.cart.add_item(self.item1)
 
         self.assertEqual(
-            f'Product with id {self.item1.product_id} already exists in cart with id {self.cart.id}',
+            f'Product with id={self.item1.product_id} already exists in cart with id={self.cart.id}',
             str(context.exception)
         )
 
@@ -58,7 +58,7 @@ class TestCart(unittest.TestCase):
             str(context.exception)
         )
 
-    def test_remove_existing_item_by_product_id(self):
+    def test_remove_existing_item_by_product_id_success(self):
         # Given
         self.cart.add_item(self.item1)
         self.cart.add_item(self.item2)
@@ -70,16 +70,22 @@ class TestCart(unittest.TestCase):
         self.assertNotIn(self.item1, self.cart.items)
         self.assertIn(self.item2, self.cart.items)
 
-    def test_remove_nonexistent_item_by_product_id_does_nothing(self):
+    def test_remove_nonexistent_item_by_product_id_item_not_found_raises(self):
         # Given
         self.cart.add_item(self.item2)
 
         # When
-        self.cart.remove_item_by_product_id(self.item1.product_id)
+        with self.assertRaises(RecordNotFoundError) as context:
+            self.cart.remove_item_by_product_id(self.item1.product_id)
 
         # Then
         self.assertIn(self.item2, self.cart.items)
         self.assertEqual(len(self.cart.items), 1)
+
+        self.assertEqual(
+            f'Product with id {self.item1.product_id} not found in cart with id {self.cart.id}',
+            str(context.exception)
+        )
 
     def test_equality(self):
         # Given

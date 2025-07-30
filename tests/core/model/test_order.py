@@ -12,7 +12,8 @@ from src.core.model.value import OrderItem
 class TestOrder(unittest.TestCase):
     def setUp(self):
         self.order = Order(1, 1)
-        self.item = OrderItem(1, Decimal('1'), 1)
+        self.item1 = OrderItem(1, Decimal('1'), 1)
+        self.item2 = OrderItem(2, Decimal('2'), 2)
 
     @parameterized.expand([
         ('no_item', [], Decimal("0")),
@@ -25,8 +26,7 @@ class TestOrder(unittest.TestCase):
     ])
     def test_total_price(self, test_label, items: List[OrderItem], expected_total_price: Decimal):
         # Given
-        for item in items:
-            self.order.add_item(item)
+        self.order.add_items(items)
 
         # When
         actual_total_price: Decimal = self.order.total_price
@@ -34,24 +34,25 @@ class TestOrder(unittest.TestCase):
         # Then
         self.assertEqual(expected_total_price, actual_total_price)
 
-    def test_add_item_success(self):
+    def test_add_items_success(self):
         # Given
         # When
-        self.order.add_item(self.item)
+        self.order.add_items([self.item1, self.item2])
 
         # Then
-        self.assertIn(self.item, self.order.items)
+        self.assertIn(self.item1, self.order.items)
+        self.assertIn(self.item2, self.order.items)
 
     def test_add_item_already_exists_raises(self):
         # Given
-        self.order.add_item(self.item)
+        self.order.add_items([self.item1, self.item2])
 
         # When, Then
         with self.assertRaises(RecordAlreadyExistsError) as context:
-            self.order.add_item(self.item)
+            self.order.add_items([self.item1])
 
         self.assertEqual(
-            f'Product with id={self.item.product_id} already exists in order with id={self.order.id}',
+            f'Product with id={self.item1.product_id} already exists in order with id={self.order.id}',
             str(context.exception)
         )
 

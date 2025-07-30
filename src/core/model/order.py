@@ -9,23 +9,28 @@ from src.core.model.value import OrderItem
 
 @dataclass(eq=False)
 class Order:
-    id: int
     user_id: int
+    id: Optional[int] = None
 
-    items: List[OrderItem] = field(default_factory=list)
+    items: List[OrderItem] = field(default_factory=list, init=False)
 
-    created_at: datetime = field(default_factory=datetime.now)
+    created_at: datetime = field(default_factory=datetime.now, init=False)
 
     @property
     def total_price(self) -> Decimal:
         return sum((item.total_price for item in self.items), Decimal('0'))
 
-    def add_item(self, new_item: OrderItem) -> None:
-        for i, item in enumerate(self.items):
-            if item.product_id == new_item.product_id:
+    def add_items(self, new_items: List[OrderItem]) -> 'Order':
+        existing_product_ids = {item.product_id for item in self.items}
+
+        for new_item in new_items:
+            if new_item.product_id in existing_product_ids:
                 raise RecordAlreadyExistsError.order_item(self.id, new_item.product_id)
 
-        self.items.append(new_item)
+            self.items.append(new_item)
+            existing_product_ids.add(new_item.product_id)
+
+        return self
 
     def __eq__(self, other):
         if not isinstance(other, Order):

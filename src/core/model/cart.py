@@ -13,7 +13,7 @@ class Cart:
     items: List[CartItem] = field(default_factory=list)
 
     def add_item(self, new_item: CartItem) -> None:
-        for i, item in enumerate(self.items):
+        for item in self.items:
             if item.product_id == new_item.product_id:
                 raise RecordAlreadyExistsError.cart_item(self.id, new_item.product_id)
 
@@ -28,7 +28,12 @@ class Cart:
         raise RecordNotFoundError.cart_item(self.id, updated_item.product_id)
 
     def remove_item_by_product_id(self, product_id: int) -> None:
-        self.items = [item for item in self.items if item.product_id != product_id]
+        for i, item in enumerate(self.items):
+            if item.product_id == product_id:
+                del self.items[i]
+                return
+
+        raise RecordNotFoundError.cart_item(self.id, product_id)
 
     def __eq__(self, other):
         if not isinstance(other, Cart):
