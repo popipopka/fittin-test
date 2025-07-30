@@ -1,19 +1,24 @@
 import os
 import unittest
+from unittest.mock import patch
 
 from src.config.base_config import BaseConfig
 
 
 class TestBaseConfig(unittest.TestCase):
+    @patch.dict(os.environ,
+                {
+                    'DEBUG': 'true',
+                    'DATABASE__USER': 'user',
+                    'DATABASE__PASSWORD': 'password',
+                    'DATABASE__HOST': 'host',
+                    'DATABASE__PORT': '1',
+                    'DATABASE__DATABASE': 'database',
+                },
+                clear=False
+                )
     def test_base_config_from_env(self):
         # Given
-        os.environ["DEBUG"] = "true"
-        os.environ["DATABASE__USER"] = 'user'
-        os.environ["DATABASE__PASSWORD"] = 'password'
-        os.environ["DATABASE__HOST"] = 'host'
-        os.environ["DATABASE__PORT"] = '1'
-        os.environ["DATABASE__DATABASE"] = 'database'
-
         # When
         config = BaseConfig()
 
