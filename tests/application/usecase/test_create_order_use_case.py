@@ -1,6 +1,6 @@
-import unittest
 from decimal import Decimal
-from unittest.mock import MagicMock
+from unittest.async_case import IsolatedAsyncioTestCase
+from unittest.mock import AsyncMock
 
 from src.application.usecase.create_order_use_case import CreateOrderUseCase
 from src.core.error import RecordNotFoundError
@@ -8,18 +8,18 @@ from src.core.model import Product, Cart
 from src.core.model.value import CartItem
 
 
-class TestCreateOrderUseCase(unittest.TestCase):
+class TestCreateOrderUseCase(IsolatedAsyncioTestCase):
     def setUp(self):
-        self.order_repo = MagicMock()
-        self.user_repo = MagicMock()
-        self.cart_repo = MagicMock()
-        self.product_repo = MagicMock()
+        self.order_repo = AsyncMock()
+        self.user_repo = AsyncMock()
+        self.cart_repo = AsyncMock()
+        self.product_repo = AsyncMock()
 
         self.use_case = CreateOrderUseCase(self.order_repo, self.user_repo, self.cart_repo, self.product_repo)
 
         self.user_id = 1
 
-    def test_execute_success(self):
+    async def test_execute_success(self):
         # Given
 
         cart = Cart(id=1, user_id=self.user_id)
@@ -36,7 +36,7 @@ class TestCreateOrderUseCase(unittest.TestCase):
         self.product_repo.get_all_by_ids.return_value = products
 
         # When
-        self.use_case.execute(self.user_id)
+        await self.use_case.execute(self.user_id)
 
         # Then
         self.user_repo.exists_by_id.assert_called_once_with(self.user_id)
@@ -45,13 +45,13 @@ class TestCreateOrderUseCase(unittest.TestCase):
         self.order_repo.save.assert_called_once()
         self.cart_repo.save.assert_called_once()
 
-    def test_execute_user_not_found_raises(self):
+    async def test_execute_user_not_found_raises(self):
         # Given
         self.user_repo.exists_by_id.return_value = False
 
         # When, Then
         with self.assertRaises(RecordNotFoundError) as context:
-            self.use_case.execute(self.user_id)
+            await self.use_case.execute(self.user_id)
 
         self.assertEqual(f'User with id {self.user_id} not found', str(context.exception))
 

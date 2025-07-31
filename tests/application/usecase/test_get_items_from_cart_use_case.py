@@ -1,6 +1,6 @@
-import unittest
 from decimal import Decimal
-from unittest.mock import MagicMock
+from unittest import IsolatedAsyncioTestCase
+from unittest.mock import AsyncMock
 
 from src.application.usecase.get_items_from_cart_use_case import GetItemsFromCartUseCase
 from src.core.error import RecordNotFoundError
@@ -10,17 +10,17 @@ from src.core.shared.result import CartItemData
 from src.core.shared.result.product_item_data import ProductItemData
 
 
-class TestGetItemsFromCartUseCase(unittest.TestCase):
+class TestGetItemsFromCartUseCase(IsolatedAsyncioTestCase):
     def setUp(self):
-        self.cart_repo = MagicMock()
-        self.user_repo = MagicMock()
-        self.product_repo = MagicMock()
-        self.product_image_repo = MagicMock()
+        self.cart_repo = AsyncMock()
+        self.user_repo = AsyncMock()
+        self.product_repo = AsyncMock()
+        self.product_image_repo = AsyncMock()
 
         self.use_case = GetItemsFromCartUseCase(self.cart_repo, self.user_repo, self.product_repo,
                                                 self.product_image_repo)
 
-    def test_execute_success(self):
+    async def test_execute_success(self):
         # Given
         user_id = 1
 
@@ -45,7 +45,7 @@ class TestGetItemsFromCartUseCase(unittest.TestCase):
         self.product_image_repo.get_image_urls_by_product_ids.return_value = image_urls
 
         # When
-        actual = self.use_case.execute(user_id)
+        actual = await self.use_case.execute(user_id)
 
         # Then
         self.assertEqual(expected, actual)
@@ -55,7 +55,7 @@ class TestGetItemsFromCartUseCase(unittest.TestCase):
         self.product_repo.get_all_by_ids.assert_called_once_with([1, 2])
         self.product_image_repo.get_image_urls_by_product_ids.assert_called_once_with([1, 2])
 
-    def test_execute_user_not_found_raises(self):
+    async def test_execute_user_not_found_raises(self):
         # Given
         user_id = 1
 
@@ -63,7 +63,7 @@ class TestGetItemsFromCartUseCase(unittest.TestCase):
 
         # When, Then
         with self.assertRaises(RecordNotFoundError) as context:
-            self.use_case.execute(user_id)
+            await self.use_case.execute(user_id)
 
         self.assertEqual(f'User with id {user_id} not found', str(context.exception))
 

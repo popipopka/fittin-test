@@ -10,11 +10,11 @@ class RemoveItemFromCartUseCase(RemoveItemFromCartPort):
         self.cart_repository = cart_repository
         self.user_repo = user_repo
 
-    def execute(self, user_id: int, product_id: int) -> None:
-        if not self.user_repo.exists_by_id(user_id):
+    async def execute(self, user_id: int, product_id: int) -> None:
+        if not await self.user_repo.exists_by_id(user_id):
             raise RecordNotFoundError.user(user_id)
 
-        cart = self.cart_repository.get_cart_by_user_id(user_id)
+        cart = await self.cart_repository.get_cart_by_user_id(user_id)
         cart.remove_item_by_product_id(product_id)
 
-        self.cart_repository.save(cart)
+        await self.cart_repository.save(cart)

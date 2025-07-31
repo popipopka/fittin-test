@@ -1,6 +1,6 @@
-import unittest
 from typing import List
-from unittest.mock import MagicMock
+from unittest import IsolatedAsyncioTestCase
+from unittest.mock import AsyncMock
 
 from parameterized import parameterized
 from sortedcontainers import SortedList
@@ -10,9 +10,9 @@ from src.core.model import Category
 from src.core.shared.result import CategoryData
 
 
-class TestGetCategoriesUseCase(unittest.TestCase):
+class TestGetCategoriesUseCase(IsolatedAsyncioTestCase):
     def setUp(self):
-        self.category_repo = MagicMock()
+        self.category_repo = AsyncMock()
         self.use_case = GetCategoriesUseCase(self.category_repo)
 
     @parameterized.expand([
@@ -49,12 +49,12 @@ class TestGetCategoriesUseCase(unittest.TestCase):
          ]
          )
     ])
-    def test_execute(self, test_label, categories: List[Category], expected_tree: List[CategoryData]):
+    async def test_execute(self, test_label, categories: List[Category], expected_tree: List[CategoryData]):
         # Given
         self.category_repo.get_all.return_value = categories
 
         # When
-        actual_tree = self.use_case.execute()
+        actual_tree = await self.use_case.execute()
 
         # Then
         self.assertEqual(expected_tree, actual_tree)

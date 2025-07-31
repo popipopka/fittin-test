@@ -6,5 +6,5 @@ from src.core.shared.result import CategoryData
 
 class GetCategoriesPort(ABC):
     @abstractmethod
-    def execute(self) -> List[CategoryData]:
+    async def execute(self) -> List[CategoryData]:
         pass

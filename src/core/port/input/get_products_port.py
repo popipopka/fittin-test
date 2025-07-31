@@ -7,5 +7,5 @@ from src.core.shared.result.product_item_data import ProductItemData
 
 class GetProductsPort(ABC):
     @abstractmethod
-    def execute(self, category_id: int, filters: Optional[ProductFilterParams] = None) -> List[ProductItemData]:
+    async def execute(self, category_id: int, filters: Optional[ProductFilterParams] = None) -> List[ProductItemData]:
         pass

@@ -5,5 +5,5 @@ from src.core.model import Product
 
 class GetProductPort(ABC):
     @abstractmethod
-    def execute(self, product_id: int) -> Product:
+    async def execute(self, product_id: int) -> Product:
         pass

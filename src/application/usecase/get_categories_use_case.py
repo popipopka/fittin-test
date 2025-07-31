@@ -11,8 +11,8 @@ class GetCategoriesUseCase(GetCategoriesPort):
     def __init__(self, category_repo: CategoryRepository):
         self.category_repo = category_repo
 
-    def execute(self) -> List[CategoryData]:
-        categories = self.category_repo.get_all()
+    async def execute(self) -> List[CategoryData]:
+        categories = await self.category_repo.get_all()
 
         return self.__build_category_tree(categories)
 

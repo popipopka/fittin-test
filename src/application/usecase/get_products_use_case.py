@@ -14,11 +14,12 @@ class GetProductsUseCase(GetProductsPort):
         self.product_repo = product_repo
         self.product_image_repo = product_image_repo
 
-    def execute(self, category_id: int, filters: Optional[ProductFilterParams] = None) -> List[ProductItemData]:
+    async def execute(self, category_id: int, filters: Optional[ProductFilterParams] = None) -> List[ProductItemData]:
         if filters is None:
             filters = ProductFilterParams()
 
-        products = self.product_repo.get_all(filters)
-        image_urls = self.product_image_repo.get_image_urls_by_product_ids([product.id for product in products])
+        products = await self.product_repo.get_all(filters)
+        image_urls = await (self.product_image_repo
+                            .get_image_urls_by_product_ids([product.id for product in products]))
 
         return to_product_item_data_list(products, image_urls)

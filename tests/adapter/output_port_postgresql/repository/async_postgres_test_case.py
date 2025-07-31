@@ -1,3 +1,4 @@
+import atexit
 from unittest.async_case import IsolatedAsyncioTestCase
 
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
@@ -6,17 +7,35 @@ from testcontainers.postgres import PostgresContainer
 from src.adapter.output_port_postgresql.entity import Base
 
 
+class PostgresContainerManager:
+    postgres = None
+    db_url = None
+
+    @classmethod
+    def start(cls):
+        if cls.postgres is None:
+            cls.postgres = PostgresContainer('postgres:17')
+            cls.postgres.start()
+
+            cls.db_url = cls.postgres.get_connection_url().replace("psycopg2", "asyncpg")
+
+    @classmethod
+    def stop(cls):
+        if cls.postgres is not None:
+            cls.postgres.stop()
+
+            cls.postgres = None
+            cls.db_url = None
+
+
+atexit.register(PostgresContainerManager.stop)
+
+
 class AsyncPostgresTestCase(IsolatedAsyncioTestCase):
     @classmethod
     def setUpClass(cls):
-        cls.postgres = PostgresContainer('postgres:17')
-        cls.postgres.start()
-
-        cls.db_url = cls.postgres.get_connection_url().replace("psycopg2", "asyncpg")
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.postgres.stop()
+        PostgresContainerManager.start()
+        cls.db_url = PostgresContainerManager.db_url
 
     async def asyncSetUp(self):
         self.engine = create_async_engine(self.db_url)

@@ -1,6 +1,6 @@
-import unittest
 from decimal import Decimal
-from unittest.mock import MagicMock
+from unittest import IsolatedAsyncioTestCase
+from unittest.mock import AsyncMock
 
 from src.application.usecase.get_products_use_case import GetProductsUseCase
 from src.core.model import Product
@@ -8,10 +8,10 @@ from src.core.shared.params import ProductFilterParams
 from src.core.shared.result.product_item_data import ProductItemData
 
 
-class TestGetProductsUseCase(unittest.TestCase):
+class TestGetProductsUseCase(IsolatedAsyncioTestCase):
     def setUp(self):
-        self.product_repo = MagicMock()
-        self.product_image_repo = MagicMock()
+        self.product_repo = AsyncMock()
+        self.product_image_repo = AsyncMock()
         self.use_case = GetProductsUseCase(self.product_repo, self.product_image_repo)
 
         self.products = [
@@ -24,7 +24,7 @@ class TestGetProductsUseCase(unittest.TestCase):
             ProductItemData(2, 'name2', Decimal('80'), 'url2'),
         ]
 
-    def test_execute_with_filters(self):
+    async def test_execute_with_filters(self):
         # Given
         filters = ProductFilterParams(min_price=Decimal('10'), max_price=Decimal('100'))
 
@@ -32,7 +32,7 @@ class TestGetProductsUseCase(unittest.TestCase):
         self.product_image_repo.get_image_urls_by_product_ids.return_value = self.image_urls
 
         # When
-        actual = self.use_case.execute(category_id=1, filters=filters)
+        actual = await self.use_case.execute(category_id=1, filters=filters)
 
         # Then
         self.product_repo.get_all.assert_called_once_with(filters)
@@ -40,13 +40,13 @@ class TestGetProductsUseCase(unittest.TestCase):
 
         self.assertEqual(self.expected, actual)
 
-    def test_execute_without_filters(self):
+    async def test_execute_without_filters(self):
         # Given
         self.product_repo.get_all.return_value = self.products
         self.product_image_repo.get_image_urls_by_product_ids.return_value = self.image_urls
 
         # When
-        actual = self.use_case.execute(category_id=1)
+        actual = await self.use_case.execute(category_id=1)
 
         # Then
         self.product_repo.get_all.assert_called_once_with(ProductFilterParams())

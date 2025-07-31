@@ -5,4 +5,5 @@ pydantic-settings
 SQLAlchemy
 asyncpg
 psycopg2-binary
+alembic
 testcontainers-postgres
