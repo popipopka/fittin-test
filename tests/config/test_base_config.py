@@ -2,7 +2,7 @@ import os
 import unittest
 from unittest.mock import patch
 
-from src.config.base_config import BaseConfig
+from src.config.base_config import BaseConfig, DatabaseConfig
 
 
 class TestBaseConfig(unittest.TestCase):
@@ -42,3 +42,21 @@ class TestBaseConfig(unittest.TestCase):
         self.assertEqual('', config.database.host)
         self.assertEqual(0, config.database.port)
         self.assertEqual('', config.database.database)
+
+    def test_database_config_url(self):
+        # Given
+        database_config = DatabaseConfig(
+            user='user',
+            password='pass',
+            database='database',
+            host='host',
+            port=1111,
+            dialect='dialect'
+        )
+        expected = 'dialect+driver://user:pass@host:1111/database'
+
+        # When
+        actual = database_config.build_url(driver='driver')
+
+        # Then
+        self.assertEqual(expected, actual)

@@ -16,3 +16,4 @@ class TestLocalConfig(unittest.TestCase):
         self.assertEqual('localhost', config.database.host)
         self.assertEqual(5450, config.database.port)
         self.assertEqual('store', config.database.database)
+        self.assertEqual('postgresql', config.database.dialect)

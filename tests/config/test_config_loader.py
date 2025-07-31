@@ -16,7 +16,7 @@ class TestConfig(unittest.TestCase):
 
         # When
         import src.config as config
-        actual = config.config
+        actual = config.app_config
 
         # Then
         self.assertEqual(expected, actual)
@@ -31,7 +31,7 @@ class TestConfig(unittest.TestCase):
 
         # When
         import src.config as config
-        actual = config.config
+        actual = config.app_config
 
         # Then
         self.assertEqual(expected, actual)
@@ -44,6 +44,6 @@ class TestConfig(unittest.TestCase):
         # When, Then
         with self.assertRaises(ValueError) as context:
             import src.config as config
-            _ = config.config
+            _ = config.app_config
 
         self.assertEqual('Unknown profile: unknown', str(context.exception))

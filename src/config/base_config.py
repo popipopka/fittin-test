@@ -8,6 +8,10 @@ class DatabaseConfig(BaseModel):
     host: str = ''
     port: int = 0
     database: str = ''
+    dialect: str = ''
+
+    def build_url(self, driver: str) -> str:
+        return f'{self.dialect}+{driver}://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}'
 
 
 class BaseConfig(BaseSettings):

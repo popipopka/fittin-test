@@ -9,5 +9,6 @@ class LocalConfig(BaseConfig):
         password='password',
         host='localhost',
         port=5450,
-        database='store'
+        database='store',
+        dialect='postgresql',
     )
