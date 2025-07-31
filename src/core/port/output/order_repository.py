@@ -5,5 +5,5 @@ from src.core.model import Order
 
 class OrderRepository(ABC):
     @abstractmethod
-    def save(self, order: Order):
+    async def save(self, order: Order) -> int:
         pass

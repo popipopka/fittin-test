@@ -101,16 +101,16 @@ class TestCart(unittest.TestCase):
 
     def test_equality(self):
         # Given
-        first = Cart(1, 2)
-        second = Cart(1, 4)
+        first = Cart(id=1, user_id=2)
+        second = Cart(id=1, user_id=4)
 
         # When, Then
         self.assertEqual(first, second)
 
     def test_inequality(self):
         # Given
-        first = Cart(1, 1)
-        second = Cart(2, 1)
+        first = Cart(id=1, user_id=1)
+        second = Cart(id=2, user_id=1)
 
         # When, Then
         self.assertNotEqual(first, second)

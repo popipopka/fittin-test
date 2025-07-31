@@ -6,5 +6,5 @@ from src.core.model import Category
 
 class CategoryRepository(ABC):
     @abstractmethod
-    def get_all(self) -> List[Category]:
+    async def get_all(self) -> List[Category]:
         pass

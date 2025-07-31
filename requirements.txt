@@ -2,3 +2,7 @@ parameterized
 sortedcontainers
 pydantic
 pydantic-settings
+SQLAlchemy
+asyncpg
+psycopg2-binary
+testcontainers-postgres

@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Optional
 
 from src.core.error import RecordAlreadyExistsError, RecordNotFoundError
 from src.core.model.value import CartItem
@@ -7,8 +7,8 @@ from src.core.model.value import CartItem
 
 @dataclass(eq=False)
 class Cart:
-    id: int
     user_id: int
+    id: Optional[int] = None
 
     items: List[CartItem] = field(default_factory=list)
 
