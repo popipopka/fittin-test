@@ -9,3 +9,5 @@ alembic
 testcontainers-postgres
 testcontainers-minio
 minio
+fastapi
+uvicorn
