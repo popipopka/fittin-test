@@ -72,3 +72,13 @@ class TestMinioProductImageRepository(IsolatedAsyncioTestCase):
         # Then
         self.assertSetEqual(set(urls.keys()), set(product_ids))
         self.assertTrue(all(url.startswith('http://') for url in urls.values()))
+
+    async def test_get_image_url_by_product_id(self):
+        # Given
+        product_id = 2
+
+        # When
+        url = await self.repo.get_image_url_by_product_id(product_id)
+
+        # Then
+        self.assertTrue(url.startswith('http://'))

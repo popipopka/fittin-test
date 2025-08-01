@@ -14,6 +14,7 @@ class Product:
     name: str
     description: str
     price: Decimal
+    image_url: str = field(repr=False, init=False)
 
     attributes: List[Attribute] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.now)
