@@ -2,19 +2,19 @@ from decimal import Decimal
 
 from src.adapter.output_port_postgresql.entity import ProductEntity, CategoryEntity, OrderEntity, UserEntity, \
     OrderItemEntity
-from src.adapter.output_port_postgresql.repository import SqlOrderRepositoryAdapter
+from src.adapter.output_port_postgresql.repository import SqlOrderRepository
 from src.core.model import Order
 from src.core.model.value import OrderItem
 from tests.adapter.output_port_postgresql.repository.async_postgres_test_case import AsyncPostgresTestCase
 
 
-class TestSqlOrderRepositoryAdapter(AsyncPostgresTestCase):
+class TestSqlOrderRepository(AsyncPostgresTestCase):
 
     async def asyncSetUp(self):
         await super().asyncSetUp()
         await self.fill_data_in_database()
 
-        self.repo = SqlOrderRepositoryAdapter(self.session)
+        self.repo = SqlOrderRepository(self.session)
 
     async def fill_data_in_database(self):
         category = CategoryEntity(id=1, name='category')

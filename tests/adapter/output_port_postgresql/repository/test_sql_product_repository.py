@@ -3,18 +3,18 @@ from decimal import Decimal
 from parameterized import parameterized
 
 from src.adapter.output_port_postgresql.entity import ProductEntity, CategoryEntity
-from src.adapter.output_port_postgresql.repository import SqlProductRepositoryAdapter
+from src.adapter.output_port_postgresql.repository import SqlProductRepository
 from src.core.shared.params import ProductFilterParams, SortDirection
 from tests.adapter.output_port_postgresql.repository.async_postgres_test_case import AsyncPostgresTestCase
 
 
-class TestSqlProductRepositoryAdapter(AsyncPostgresTestCase):
+class TestSqlProductRepository(AsyncPostgresTestCase):
 
     async def asyncSetUp(self):
         await super().asyncSetUp()
         await self.fill_data_in_database()
 
-        self.repo = SqlProductRepositoryAdapter(self.session)
+        self.repo = SqlProductRepository(self.session)
 
     async def fill_data_in_database(self):
         products = [

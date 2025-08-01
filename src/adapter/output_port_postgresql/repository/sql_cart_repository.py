@@ -10,7 +10,7 @@ from src.core.model.value import CartItem
 from src.core.port.output.cart_repository import CartRepository
 
 
-class SqlCartRepositoryAdapter(CartRepository):
+class SqlCartRepository(CartRepository):
 
     def __init__(self, session: AsyncSession) -> None:
         self.session = session

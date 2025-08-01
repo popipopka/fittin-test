@@ -1,14 +1,14 @@
 from src.adapter.output_port_postgresql.entity import UserEntity
-from src.adapter.output_port_postgresql.repository import SqlUserRepositoryAdapter
+from src.adapter.output_port_postgresql.repository import SqlUserRepository
 from tests.adapter.output_port_postgresql.repository.async_postgres_test_case import AsyncPostgresTestCase
 
 
-class TestSqlUserRepositoryAdapter(AsyncPostgresTestCase):
+class TestSqlUserRepository(AsyncPostgresTestCase):
 
     async def asyncSetUp(self):
         await super().asyncSetUp()
 
-        self.repo = SqlUserRepositoryAdapter(self.session)
+        self.repo = SqlUserRepository(self.session)
 
     async def test_exists_by_id_user_exists(self):
         # Given

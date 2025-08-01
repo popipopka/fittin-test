@@ -1,18 +1,18 @@
 from src.adapter.output_port_postgresql.entity import CategoryEntity, ProductEntity, UserEntity, CartEntity, \
     CartItemEntity
-from src.adapter.output_port_postgresql.repository import SqlCartRepositoryAdapter
+from src.adapter.output_port_postgresql.repository import SqlCartRepository
 from src.core.model import Cart
 from src.core.model.value import CartItem
 from tests.adapter.output_port_postgresql.repository.async_postgres_test_case import AsyncPostgresTestCase
 
 
-class TestSqlCartRepositoryAdapter(AsyncPostgresTestCase):
+class TestSqlCartRepository(AsyncPostgresTestCase):
 
     async def asyncSetUp(self):
         await super().asyncSetUp()
         await self.fill_data_in_database()
 
-        self.repo = SqlCartRepositoryAdapter(self.session)
+        self.repo = SqlCartRepository(self.session)
 
     async def fill_data_in_database(self):
         category = CategoryEntity(id=1, name='category')
@@ -64,6 +64,6 @@ class TestSqlCartRepositoryAdapter(AsyncPostgresTestCase):
         self.assertEqual(updated_cart.id, cart_from_db.id)
         self.assertEqual(updated_cart.user_id, cart_from_db.user_id)
 
-        self.assertEqual(updated_cart.id, cart_item_from_db.cart_id)
+        self.assertEqual(cart_id, cart_item_from_db.cart_id)
         self.assertEqual(updated_cart_item.product_id, cart_item_from_db.product_id)
         self.assertEqual(updated_cart_item.quantity, cart_item_from_db.quantity)

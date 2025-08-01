@@ -5,7 +5,7 @@ from src.core.model import Order
 from src.core.port.output.order_repository import OrderRepository
 
 
-class SqlOrderRepositoryAdapter(OrderRepository):
+class SqlOrderRepository(OrderRepository):
 
     def __init__(self, session: AsyncSession):
         self.session = session

@@ -1,15 +1,15 @@
 from src.adapter.output_port_postgresql.entity import CategoryEntity
-from src.adapter.output_port_postgresql.repository import SqlCategoryRepositoryAdapter
+from src.adapter.output_port_postgresql.repository import SqlCategoryRepository
 from tests.adapter.output_port_postgresql.repository.async_postgres_test_case import AsyncPostgresTestCase
 
 
-class TestSqlCategoryRepositoryAdapter(AsyncPostgresTestCase):
+class TestSqlCategoryRepository(AsyncPostgresTestCase):
 
     async def asyncSetUp(self):
         await super().asyncSetUp()
         await self.fill_data_in_database()
 
-        self.repo = SqlCategoryRepositoryAdapter(self.session)
+        self.repo = SqlCategoryRepository(self.session)
 
     async def fill_data_in_database(self):
         category1 = CategoryEntity(id=1, name='category1')

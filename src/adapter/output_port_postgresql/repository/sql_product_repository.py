@@ -10,7 +10,7 @@ from src.core.port.output.product_repository import ProductRepository
 from src.core.shared.params import ProductFilterParams, SortDirection
 
 
-class SqlProductRepositoryAdapter(ProductRepository):
+class SqlProductRepository(ProductRepository):
 
     def __init__(self, session: AsyncSession):
         self.session = session

@@ -9,7 +9,7 @@ from src.core.model import Category
 from src.core.port.output.category_repository import CategoryRepository
 
 
-class SqlCategoryRepositoryAdapter(CategoryRepository):
+class SqlCategoryRepository(CategoryRepository):
 
     def __init__(self, session: AsyncSession):
         self.session = session

@@ -5,7 +5,7 @@ from src.adapter.output_port_postgresql.entity import UserEntity
 from src.core.port.output.user_repository import UserRepository
 
 
-class SqlUserRepositoryAdapter(UserRepository):
+class SqlUserRepository(UserRepository):
 
     def __init__(self, session: AsyncSession):
         self.session = session
