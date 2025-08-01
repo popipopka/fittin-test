@@ -1,15 +1,15 @@
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
+from typing import Optional
 
 
 @dataclass(eq=False)
 class User:
-    id: int
-
     email: str
     hash_password: str = field(repr=False)
+    id: Optional[int] = field(default=None)
 
-    created_at: datetime = field(default_factory=datetime.now)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def __eq__(self, other):
         if not isinstance(other, User):

@@ -12,4 +12,6 @@ class OrderEntity(Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    items = relationship('OrderItemEntity', cascade='all, delete-orphan', back_populates='_order')
+    items = relationship(
+        'OrderItemEntity', cascade='all, delete-orphan', back_populates='_order', lazy='joined'
+    )

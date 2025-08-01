@@ -20,9 +20,10 @@ class SqlProductRepository(ProductRepository):
 
         return to_product_model(product)
 
-    async def get_all(self, filters: ProductFilterParams) -> List[Product]:
+    async def get_all_by_category_id(self, category_id: int, filters: ProductFilterParams) -> List[Product]:
         result = await self.session.execute(
             apply_filters(select(ProductEntity), filters)
+            .where(ProductEntity.category_id == category_id)
         )
         products = result.scalars().all()
 

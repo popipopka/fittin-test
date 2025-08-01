@@ -20,7 +20,7 @@ class SqlCartRepository(CartRepository):
             select(CartEntity)
             .where(CartEntity.user_id == user_id)
         )
-        cart = result.scalar_one()
+        cart = result.unique().scalar_one()
 
         return to_cart_item_model_list(cart.items)
 
@@ -29,7 +29,7 @@ class SqlCartRepository(CartRepository):
             select(CartEntity)
             .where(CartEntity.user_id == user_id)
         )
-        cart = result.scalar_one_or_none()
+        cart = result.unique().scalar_one_or_none()
 
         return to_cart_model(cart)
 

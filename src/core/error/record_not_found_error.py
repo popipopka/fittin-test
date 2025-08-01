@@ -4,8 +4,12 @@ class RecordNotFoundError(Exception):
         return RecordNotFoundError(f'Product with id {product_id} not found in cart with id {cart_id}')
 
     @staticmethod
-    def user(user_id: int) -> 'RecordNotFoundError':
+    def user_by_id(user_id: int) -> 'RecordNotFoundError':
         return RecordNotFoundError(f'User with id {user_id} not found')
+
+    @staticmethod
+    def user_by_email(email: str) -> 'RecordNotFoundError':
+        return RecordNotFoundError(f'User with email {email} not found')
 
     @staticmethod
     def product(product_id: int) -> 'RecordNotFoundError':

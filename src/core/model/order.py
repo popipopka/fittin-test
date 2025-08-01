@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 from typing import List, Optional
 
@@ -14,7 +14,7 @@ class Order:
 
     items: List[OrderItem] = field(default_factory=list, init=False)
 
-    created_at: datetime = field(default_factory=datetime.now, init=False)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc), init=False)
 
     @property
     def total_price(self) -> Decimal:

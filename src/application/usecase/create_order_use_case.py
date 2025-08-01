@@ -22,7 +22,7 @@ class CreateOrderUseCase(CreateOrderPort):
 
     async def execute(self, user_id: int) -> int:
         if not await self.user_repo.exists_by_id(user_id):
-            raise RecordNotFoundError.user(user_id)
+            raise RecordNotFoundError.user_by_id(user_id)
 
         cart = await self.cart_repo.get_cart_by_user_id(user_id)
         products = await self.product_repo.get_all_by_ids([item.product_id for item in cart.items])

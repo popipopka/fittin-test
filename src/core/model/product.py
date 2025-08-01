@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 from typing import List
 
@@ -17,7 +17,7 @@ class Product:
     image_url: str = field(repr=False, init=False)
 
     attributes: List[Attribute] = field(default_factory=list)
-    created_at: datetime = field(default_factory=datetime.now)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def __eq__(self, other):
         if not isinstance(other, Product):

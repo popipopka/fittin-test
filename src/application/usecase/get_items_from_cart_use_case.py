@@ -20,7 +20,7 @@ class GetItemsFromCartUseCase(GetItemsFromCartPort):
 
     async def execute(self, user_id: int) -> List[CartItemData]:
         if not await self.user_repo.exists_by_id(user_id):
-            raise RecordNotFoundError.user(user_id)
+            raise RecordNotFoundError.user_by_id(user_id)
 
         cart_items = await self.cart_repo.get_items_by_user_id(user_id)
         products_ids = [item.product_id for item in cart_items]

@@ -13,7 +13,7 @@ class AddItemToCartUseCase(AddItemToCartPort):
 
     async def execute(self, user_id: int, item: CartItem) -> None:
         if not await self.user_repo.exists_by_id(user_id):
-            raise RecordNotFoundError.user(user_id)
+            raise RecordNotFoundError.user_by_id(user_id)
 
         cart = await self.cart_repo.get_cart_by_user_id(user_id)
         cart.add_item(item)

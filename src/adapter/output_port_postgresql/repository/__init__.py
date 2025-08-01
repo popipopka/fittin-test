@@ -2,4 +2,5 @@ from .sql_cart_repository import SqlCartRepository
 from .sql_category_repository import SqlCategoryRepository
 from .sql_order_repository import SqlOrderRepository
 from .sql_product_repository import SqlProductRepository
+from .sql_refresh_token_repository import SqlRefreshTokenRepository
 from .sql_user_repository import SqlUserRepository

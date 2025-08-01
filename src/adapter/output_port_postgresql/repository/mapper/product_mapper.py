@@ -10,7 +10,7 @@ def to_product_model_list(product_entities: Sequence[ProductEntity]) -> List[Pro
     return list(map(to_product_model, product_entities))
 
 
-def to_product_model(product_entity: ProductEntity) -> Optional[Product]:
+def to_product_model(product_entity: Optional[ProductEntity]) -> Optional[Product]:
     if not product_entity:
         return None
 
