@@ -1,0 +1,2 @@
+from .minio_client import minio_client
+from .minio_product_image_repository import MinioProductImageRepository

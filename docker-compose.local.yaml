@@ -18,5 +18,25 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: store
 
+  minio:
+    image: minio/minio
+    container_name: minio
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:9900/minio/health/live"]
+      start_period: 3s
+      interval: 3s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - local-minio-volume:/data
+    command: server /data --address ":9900" --console-address ":9901"
+    ports:
+      - "9900:9900"
+      - "9901:9901"
+    environment:
+      MINIO_ROOT_USER: local
+      MINIO_ROOT_PASSWORD: password
+
 volumes:
   local-postgres-volume:
+  local-minio-volume:

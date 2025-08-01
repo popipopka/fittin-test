@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -13,10 +15,20 @@ class DatabaseConfig(BaseModel):
     def build_url(self, driver: str) -> str:
         return f'{self.dialect}+{driver}://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}'
 
+class ObjectStorageConfig(BaseModel):
+    endpoint: str = ''
+    access_key: str = ''
+    secret_key: str = ''
+    secure: bool = True
+
+    product_images_bucket: str = 'images'
+    product_image_url_expiration: timedelta = timedelta(days=1)
 
 class BaseConfig(BaseSettings):
     debug: bool = False
+
     database: DatabaseConfig = DatabaseConfig()
+    object_storage: ObjectStorageConfig = ObjectStorageConfig()
 
     model_config = SettingsConfigDict(
         env_file='.env',
