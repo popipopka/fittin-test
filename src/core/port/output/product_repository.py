@@ -11,7 +11,7 @@ class ProductRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_all(self, filters: ProductFilterParams) -> List[Product]:
+    async def get_all_by_category_id(self, category_id: int, filters: ProductFilterParams) -> List[Product]:
         pass
 
     @abstractmethod

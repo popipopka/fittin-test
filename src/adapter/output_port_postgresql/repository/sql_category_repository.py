@@ -1,6 +1,6 @@
 from typing import List
 
-from sqlalchemy import select
+from sqlalchemy import select, exists
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.adapter.output_port_postgresql.entity import CategoryEntity
@@ -22,3 +22,9 @@ class SqlCategoryRepository(CategoryRepository):
         categories = result.scalars().all()
 
         return to_category_model_list(categories)
+
+    async def exists(self, id: int):
+        result = await self.session.execute(
+            select(exists().where(CategoryEntity.id == id))
+        )
+        return result.scalar()

@@ -8,3 +8,7 @@ class CategoryRepository(ABC):
     @abstractmethod
     async def get_all(self) -> List[Category]:
         pass
+
+    @abstractmethod
+    async def exists(self, id: int) -> bool:
+        pass

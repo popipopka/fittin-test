@@ -3,6 +3,7 @@ from unittest import IsolatedAsyncioTestCase
 from unittest.mock import AsyncMock
 
 from src.application.usecase.get_products_use_case import GetProductsUseCase
+from src.core.error import RecordNotFoundError
 from src.core.model import Product
 from src.core.shared.params import ProductFilterParams
 from src.core.shared.result.product_item_data import ProductItemData
@@ -12,7 +13,9 @@ class TestGetProductsUseCase(IsolatedAsyncioTestCase):
     def setUp(self):
         self.product_repo = AsyncMock()
         self.product_image_repo = AsyncMock()
-        self.use_case = GetProductsUseCase(self.product_repo, self.product_image_repo)
+        self.category_repo = AsyncMock()
+
+        self.use_case = GetProductsUseCase(self.product_repo, self.product_image_repo, self.category_repo)
 
         self.products = [
             Product(1, 1, 'name1', 'desc1', Decimal('50')),
@@ -28,28 +31,49 @@ class TestGetProductsUseCase(IsolatedAsyncioTestCase):
         # Given
         filters = ProductFilterParams(min_price=Decimal('10'), max_price=Decimal('100'))
 
-        self.product_repo.get_all.return_value = self.products
+        self.category_repo.exists.return_value = True
+        self.product_repo.get_all_by_category_id.return_value = self.products
         self.product_image_repo.get_image_urls_by_product_ids.return_value = self.image_urls
 
         # When
         actual = await self.use_case.execute(category_id=1, filters=filters)
 
         # Then
-        self.product_repo.get_all.assert_called_once_with(filters)
+        self.category_repo.exists.assert_called_once_with(1)
+        self.product_repo.get_all_by_category_id.assert_called_once_with(1, filters)
         self.product_image_repo.get_image_urls_by_product_ids.assert_called_once_with([1, 2])
 
         self.assertEqual(self.expected, actual)
 
     async def test_execute_without_filters(self):
         # Given
-        self.product_repo.get_all.return_value = self.products
+        self.category_repo.exists.return_value = True
+        self.product_repo.get_all_by_category_id.return_value = self.products
         self.product_image_repo.get_image_urls_by_product_ids.return_value = self.image_urls
 
         # When
         actual = await self.use_case.execute(category_id=1)
 
         # Then
-        self.product_repo.get_all.assert_called_once_with(ProductFilterParams())
+        self.category_repo.exists.assert_called_once_with(1)
+        self.product_repo.get_all_by_category_id.assert_called_once_with(1, ProductFilterParams())
         self.product_image_repo.get_image_urls_by_product_ids.assert_called_once_with([1, 2])
 
         self.assertEqual(self.expected, actual)
+
+    async def test_execute_category_not_found_raises(self):
+        # Given
+        self.category_repo.exists.return_value = False
+
+        # When, Then
+        with self.assertRaises(RecordNotFoundError) as context:
+            await self.use_case.execute(category_id=1)
+
+        self.category_repo.exists.assert_called_once_with(1)
+        self.product_repo.get_all_by_category_id.assert_not_called()
+        self.product_image_repo.get_image_urls_by_product_ids.assert_not_called()
+
+        self.assertEqual(
+            'Category with id 1 not found',
+            str(context.exception)
+        )

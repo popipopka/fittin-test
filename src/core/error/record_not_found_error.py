@@ -10,3 +10,7 @@ class RecordNotFoundError(Exception):
     @staticmethod
     def product(product_id: int) -> 'RecordNotFoundError':
         return RecordNotFoundError(f'Product with id {product_id} not found')
+
+    @staticmethod
+    def category(category_id: int) -> 'RecordNotFoundError':
+        return RecordNotFoundError(f'Category with id {category_id} not found')

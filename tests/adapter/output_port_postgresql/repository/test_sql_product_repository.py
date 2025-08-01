@@ -48,37 +48,54 @@ class TestSqlProductRepository(AsyncPostgresTestCase):
         self.assertIsNone(actual)
 
     @parameterized.expand([
+        ('empty_category',
+         2,
+         ProductFilterParams(),
+         []
+         ),
+        ('not_empty_category',
+         1,
+         ProductFilterParams(),
+         [1, 2, 3]
+         ),
         ('no_filters',
+         1,
          ProductFilterParams(),
          [1, 2, 3]
          ),
         ('min_price_filter',
+         1,
          ProductFilterParams(min_price=Decimal('2')),
          [2, 3]
          ),
         ('max_price_filter',
+         1,
          ProductFilterParams(max_price=Decimal('2')),
          [1, 2]
          ),
         ('price_between',
+         1,
          ProductFilterParams(min_price=Decimal('2'), max_price=Decimal('2')),
          [2]
          ),
         ('sort_price_asc',
+         1,
          ProductFilterParams(price_sort_direction=SortDirection.ASC),
          [1, 2, 3],
          True
          ),
         ('sort_price_desc',
+         1,
          ProductFilterParams(price_sort_direction=SortDirection.DESC),
          [3, 2, 1],
          True
          )
     ])
-    async def test_get_all(self, test_label, filters, expected_ids, is_strict_equal: bool = False):
+    async def test_get_all_by_category_id(self, test_label, category_id: int, filters, expected_ids,
+                                          is_strict_equal: bool = False):
         # Given
         # When
-        result = await self.repo.get_all(filters)
+        result = await self.repo.get_all_by_category_id(category_id=category_id, filters=filters)
 
         # Then
         if is_strict_equal:

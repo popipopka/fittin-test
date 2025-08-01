@@ -28,3 +28,19 @@ class TestSqlCategoryRepository(AsyncPostgresTestCase):
 
         # Then
         self.assertTrue(all(c.id in expected_ids for c in categories))
+
+    async def test_exists_category_exists(self):
+        # Given
+        # When
+        actual = await self.repo.exists(1)
+
+        # Then
+        self.assertTrue(actual)
+
+    async def test_exists_category_not_exists(self):
+        # Given
+        # When
+        actual = await self.repo.exists(999)
+
+        # Then
+        self.assertFalse(actual)
