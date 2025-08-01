@@ -6,3 +6,7 @@ class RecordNotFoundError(Exception):
     @staticmethod
     def user(user_id: int) -> 'RecordNotFoundError':
         return RecordNotFoundError(f'User with id {user_id} not found')
+
+    @staticmethod
+    def product(product_id: int) -> 'RecordNotFoundError':
+        return RecordNotFoundError(f'Product with id {product_id} not found')
