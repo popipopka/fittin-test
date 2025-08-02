@@ -45,3 +45,12 @@ class SqlUserRepository(UserRepository):
         user = result.scalar_one_or_none()
 
         return to_user_model(user)
+
+    async def get_by_id(self, user_id: int) -> Optional[User]:
+        result = await self.session.execute(
+            select(UserEntity)
+            .where(UserEntity.id == user_id)
+        )
+        user = result.scalar_one_or_none()
+
+        return to_user_model(user)

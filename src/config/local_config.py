@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from .base_config import BaseConfig, DatabaseConfig, ObjectStorageConfig, JwtConfig
+from .base_config import BaseConfig, DatabaseConfig, ObjectStorageConfig, JwtConfig, SmtpConfig
 
 
 class LocalConfig(BaseConfig):
@@ -24,5 +24,10 @@ class LocalConfig(BaseConfig):
         access_secret='6zHqP7d/fRa9L9miftHVdPhyn0TtvlfRO2wB6LxjwALMvbNDQ7i34nlCYrOhPWDUBknos8yjaGHbj3U5m0baMw==',
         refresh_secret='dDvsW+n6KAzZHLpeZ7c9bJavXt16MqRcEKFpmFytVxovNfDgzzCLOLT4RBVEXhXZT58TNshQWQTWeXrD5+rupw==',
         access_expiration=timedelta(days=1),
-        refresh_expiration=timedelta(days=30),
+    )
+    smtp: SmtpConfig = SmtpConfig(
+        server='localhost',
+        username='',
+        port=1025,
+        password='',
     )

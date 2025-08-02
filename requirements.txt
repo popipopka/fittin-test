@@ -11,3 +11,6 @@ testcontainers-minio
 minio
 fastapi
 uvicorn
+python-jose[cryptography]
+bcrypt
+aiosmtplib

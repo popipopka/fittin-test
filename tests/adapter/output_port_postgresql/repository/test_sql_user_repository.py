@@ -105,3 +105,25 @@ class TestSqlUserRepository(AsyncPostgresTestCase):
 
         # Then
         self.assertIsNone(actual)
+
+    async def test_get_by_id_return_user(self):
+        # Given
+        user = UserEntity(id=1, email='john@doe.com', hash_password="{hash}")
+        self.session.add(user)
+        await self.session.commit()
+
+        expected = User(id=1, email='john@doe.com', hash_password="{hash}")
+
+        # When
+        actual = await self.repo.get_by_id(user.id)
+
+        # Then
+        self.assertEqual(expected, actual)
+
+    async def test_get_by_id_return_none(self):
+        # Given
+        # When
+        actual = await self.repo.get_by_id(999)
+
+        # Then
+        self.assertIsNone(actual)

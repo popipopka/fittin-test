@@ -33,6 +33,12 @@ class JwtConfig(BaseModel):
     access_expiration: timedelta = timedelta(minutes=15)
     refresh_expiration: timedelta = timedelta(days=30)
 
+class SmtpConfig(BaseModel):
+    server: str = ''
+    port: int = 0
+    username: str = ''
+    password: str = ''
+
 
 class BaseConfig(BaseSettings):
     debug: bool = False
@@ -40,6 +46,7 @@ class BaseConfig(BaseSettings):
     database: DatabaseConfig = DatabaseConfig()
     object_storage: ObjectStorageConfig = ObjectStorageConfig()
     jwt: JwtConfig = JwtConfig()
+    smtp: SmtpConfig = SmtpConfig()
 
     model_config = SettingsConfigDict(
         env_file='.env',

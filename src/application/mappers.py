@@ -1,7 +1,8 @@
 from typing import List, Dict
 
-from src.core.model import Product
+from src.core.model import Product, Order
 from src.core.model.value import CartItem, OrderItem
+from src.core.shared.params import OrderCreatedNotificationParams
 from src.core.shared.result.cart_item_data import CartItemData
 from src.core.shared.result.product_item_data import ProductItemData
 
@@ -31,3 +32,29 @@ def to_order_item_list(cart_items: List[CartItem], products: List[Product]) -> L
                       unit_price=product.price,
                       quantity=quantities[product.id])
             for product in products]
+
+
+def to_order_created_notifications_params(
+        user_email: str,
+        order: Order,
+        products: List[Product]
+) -> OrderCreatedNotificationParams:
+    return OrderCreatedNotificationParams(
+        user_email=user_email,
+        total_price=order.total_price,
+        created_at=order.created_at,
+        order_id=order.id,
+        products=__to_order_created_product_item_list(products, order.items),
+    )
+
+
+def __to_order_created_product_item_list(
+        products: List[Product], order_items: List[OrderItem]
+) -> List[OrderCreatedNotificationParams.OrderCreatedProductItem]:
+    product_name_map = {product.id: product.name for product in products}
+
+    return [OrderCreatedNotificationParams.OrderCreatedProductItem(
+        name=product_name_map[item.product_id],
+        price=item.unit_price,
+        quantity=item.quantity)
+        for item in order_items]

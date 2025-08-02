@@ -1,0 +1,4 @@
+from .get_products_request import GetProductsRequest
+from .issue_access_token_request import IssueAccessTokenRequest
+from .login_request import LoginRequest
+from .register_request import RegisterRequest

@@ -1,3 +1,6 @@
 from .login_params import LoginParams
+from .login_params import LoginParams
+from .order_created_notification_params import OrderCreatedNotificationParams
 from .product_filter_params import ProductFilterParams
+from .register_params import RegisterParams
 from .sort_direction import SortDirection

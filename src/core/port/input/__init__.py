@@ -4,5 +4,8 @@ from .get_categories_port import GetCategoriesPort
 from .get_items_from_cart_port import GetItemsFromCartPort
 from .get_product_port import GetProductPort
 from .get_products_port import GetProductsPort
+from .issue_access_token_port import IssueAccessTokenPort
+from .login_port import LoginPort
+from .register_port import RegisterPort
 from .remove_item_from_cart import RemoveItemFromCartPort
 from .update_item_in_cart import UpdateItemInCartPort

@@ -1,4 +1,5 @@
 import unittest
+from datetime import timedelta
 
 from src.config.local_config import LocalConfig
 
@@ -17,3 +18,26 @@ class TestLocalConfig(unittest.TestCase):
         self.assertEqual(5450, config.database.port)
         self.assertEqual('store', config.database.database)
         self.assertEqual('postgresql', config.database.dialect)
+
+        self.assertEqual('localhost:9900', config.object_storage.endpoint)
+        self.assertEqual('local', config.object_storage.access_key)
+        self.assertEqual('password', config.object_storage.secret_key)
+        self.assertFalse(config.object_storage.secure)
+        self.assertEqual('images', config.object_storage.product_images_bucket)
+        self.assertEqual(timedelta(days=1), config.object_storage.product_image_url_expiration)
+
+        self.assertEqual(
+            '6zHqP7d/fRa9L9miftHVdPhyn0TtvlfRO2wB6LxjwALMvbNDQ7i34nlCYrOhPWDUBknos8yjaGHbj3U5m0baMw==',
+            config.jwt.access_secret
+        )
+        self.assertEqual(
+            'dDvsW+n6KAzZHLpeZ7c9bJavXt16MqRcEKFpmFytVxovNfDgzzCLOLT4RBVEXhXZT58TNshQWQTWeXrD5+rupw==',
+            config.jwt.refresh_secret
+        )
+        self.assertEqual(timedelta(days=1), config.jwt.access_expiration)
+        self.assertEqual(timedelta(days=30), config.jwt.refresh_expiration)
+
+        self.assertEqual('localhost', config.smtp.server)
+        self.assertEqual(1025, config.smtp.port)
+        self.assertEqual('', config.smtp.username)
+        self.assertEqual('', config.smtp.password)
