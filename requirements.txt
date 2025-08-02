@@ -10,7 +10,7 @@ testcontainers-postgres
 testcontainers-minio
 minio
 fastapi
-uvicorn
+uvicorn[standard]
 python-jose[cryptography]
 bcrypt
 aiosmtplib

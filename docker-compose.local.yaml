@@ -22,7 +22,7 @@ services:
     image: minio/minio
     container_name: local-minio
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://127.0.0.1:9900/minio/health/live"]
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:9900/minio/health/live" ]
       start_period: 3s
       interval: 3s
       timeout: 3s
@@ -43,6 +43,17 @@ services:
     ports:
       - "1025:1025"
       - "8025:8025"
+
+  app:
+    build: .
+    container_name: local-app
+    ports:
+      - "8001:8000"
+    environment:
+      DATABASE__HOST: local-postgres
+      OBJECT_STORAGE__ENDPOINT: local-minio
+      SMTP__SERVER: local-mailhog
+
 
 volumes:
   local-postgres-volume:
