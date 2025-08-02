@@ -38,6 +38,9 @@ class Cart:
     def empty(self) -> None:
         self.items = []
 
+    def is_empty(self) -> bool:
+        return len(self.items) == 0
+
     def __eq__(self, other):
         if not isinstance(other, Cart):
             return False

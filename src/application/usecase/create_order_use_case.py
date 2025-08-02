@@ -25,6 +25,10 @@ class CreateOrderUseCase(CreateOrderPort):
             raise RecordNotFoundError.user_by_id(user_id)
 
         cart = await self.cart_repo.get_cart_by_user_id(user_id)
+
+        if cart.is_empty():
+            raise RecordNotFoundError.cart_items_in_cart(cart.id)
+
         products = await self.product_repo.get_all_by_ids([item.product_id for item in cart.items])
         order_items = to_order_item_list(cart.items, products)
 

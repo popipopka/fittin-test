@@ -6,16 +6,16 @@ from src.core.model import User
 class TestUser(unittest.TestCase):
     def test_equality(self):
         # Given
-        first = User(1, 'john@doe.com', '{hash}')
-        second = User(1, 'john@doe.com', '{hash}')
+        first = User(id=1, email='john@doe.com', hash_password='{hash}')
+        second = User(id=1, email='john@doe.com', hash_password='{hash}')
 
         # When, Then
         self.assertEqual(first, second)
 
     def test_inequality(self):
         # Given
-        first = User(1, 'john@doe.com', '{hash}')
-        second = User(2, 'john@doe.com', '{hash}')
+        first = User(id=1, email='john@doe.com', hash_password='{hash}')
+        second = User(id=2, email='john@doe.com', hash_password='{hash}')
 
         # When, Then
         self.assertNotEqual(first, second)

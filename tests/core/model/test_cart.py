@@ -12,6 +12,24 @@ class TestCart(unittest.TestCase):
         self.item1 = CartItem(1)
         self.item2 = CartItem(2)
 
+    def test_is_empty_return_false(self):
+        # Given
+        self.cart.add_item(self.item1)
+
+        # When
+        actual = self.cart.is_empty()
+
+        # Then
+        self.assertFalse(actual)
+
+    def test_is_empty_return_true(self):
+        # Given
+        # When
+        actual = self.cart.is_empty()
+
+        # Then
+        self.assertTrue(actual)
+
     def test_add_item_success(self):
         # Given
         # When
