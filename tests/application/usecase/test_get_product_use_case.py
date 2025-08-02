@@ -10,7 +10,8 @@ from src.core.model import Product
 class TestGetProductUseCase(IsolatedAsyncioTestCase):
     def setUp(self):
         self.product_repo = AsyncMock()
-        self.use_case = GetProductUseCase(self.product_repo)
+        self.product_image_repo = AsyncMock()
+        self.use_case = GetProductUseCase(self.product_repo, self.product_image_repo)
 
     async def test_execute_success(self):
         # Given
@@ -22,6 +23,7 @@ class TestGetProductUseCase(IsolatedAsyncioTestCase):
 
         # Then
         self.product_repo.get_by_id.assert_called_once_with(1)
+        self.product_image_repo.get_image_url_by_product_id.assert_called_once_with(1)
 
         self.assertEqual(expected, actual)
 
@@ -34,6 +36,8 @@ class TestGetProductUseCase(IsolatedAsyncioTestCase):
             await self.use_case.execute(999)
 
         self.product_repo.get_by_id.assert_called_once_with(999)
+        self.product_image_repo.get_image_url_by_product_id.assert_not_called()
+
         self.assertEqual(
             'Product with id 999 not found',
             str(context.exception)

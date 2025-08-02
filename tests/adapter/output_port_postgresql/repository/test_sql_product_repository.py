@@ -32,6 +32,22 @@ class TestSqlProductRepository(AsyncPostgresTestCase):
 
         await self.session.commit()
 
+    async def test_exist_by_id_return_true(self):
+        # Given
+        # When
+        actual = await self.repo.exists_by_id(1)
+
+        # Then
+        self.assertTrue(actual)
+
+    async def test_exist_by_id_return_false(self):
+        # Given
+        # When
+        actual = await self.repo.exists_by_id(999)
+
+        # Then
+        self.assertFalse(actual)
+
     async def test_get_by_id_product_exists(self):
         # Given
         # When

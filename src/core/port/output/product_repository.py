@@ -17,3 +17,7 @@ class ProductRepository(ABC):
     @abstractmethod
     async def get_all_by_ids(self, ids: List[int]) -> List[Product]:
         pass
+
+    @abstractmethod
+    async def exists_by_id(self, product_id: int) -> bool:
+        pass

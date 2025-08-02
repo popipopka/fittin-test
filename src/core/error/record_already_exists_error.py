@@ -8,5 +8,5 @@ class RecordAlreadyExistsError(Exception):
         return RecordAlreadyExistsError(f'Product with id={product_id} already exists in order with id={order_id}')
 
     @staticmethod
-    def user(self, email: str) -> 'RecordAlreadyExistsError':
+    def user(email: str) -> 'RecordAlreadyExistsError':
         return RecordAlreadyExistsError(f'User with email={email} already exists')

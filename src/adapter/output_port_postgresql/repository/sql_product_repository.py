@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from sqlalchemy import select, Select
+from sqlalchemy import select, Select, exists
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.adapter.output_port_postgresql.entity import ProductEntity
@@ -37,6 +37,12 @@ class SqlProductRepository(ProductRepository):
         products = result.scalars().all()
 
         return to_product_model_list(products)
+
+    async def exists_by_id(self, product_id: int) -> bool:
+        result = await self.session.execute(
+            select(exists().where(ProductEntity.id == product_id))
+        )
+        return result.scalar()
 
 
 def apply_filters(stmt: Select, filters: ProductFilterParams) -> Select:

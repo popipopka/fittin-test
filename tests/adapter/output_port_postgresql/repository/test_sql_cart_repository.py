@@ -22,6 +22,47 @@ class TestSqlCartRepository(AsyncPostgresTestCase):
         self.session.add_all([category, product, user])
         await self.session.commit()
 
+    async def test_get_items_by_user_id(self):
+        # Given
+        initial_cart = CartEntity(id=1, user_id=1)
+        item = CartItemEntity(id=1, product_id=1, quantity=1)
+        initial_cart.items = [item]
+
+        self.session.add(initial_cart)
+        await self.session.commit()
+
+        # When
+        actual_items = await self.repo.get_items_by_user_id(1)
+
+        # Then
+        actual_item = actual_items[0]
+
+        self.assertEqual(len(actual_items), 1)
+        self.assertEqual(item.product_id, actual_item.product_id)
+        self.assertEqual(item.quantity, actual_item.quantity)
+
+    async def test_get_cart_by_user_id_return_cart(self):
+        # Given
+        initial_cart = CartEntity(id=1, user_id=1)
+        self.session.add(initial_cart)
+        await self.session.commit()
+
+        expected = Cart(id=1, user_id=1)
+
+        # When
+        actual = await self.repo.get_cart_by_user_id(1)
+
+        # Then
+        self.assertEqual(expected, actual)
+
+    async def test_get_cart_by_user_id_return_none(self):
+        # Given
+        # When
+        actual = await self.repo.get_cart_by_user_id(999)
+
+        # Then
+        self.assertIsNone(actual)
+
     async def test_save_creates_new_cart(self):
         # Given
         item = CartItem(product_id=1, quantity=1)

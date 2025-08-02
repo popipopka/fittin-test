@@ -13,19 +13,19 @@ class RegisterUseCase(RegisterPort):
         self.cart_repo = cart_repo
         self.pass_encoder = pass_encoder
 
-    def execute(self, params: RegisterParams):
+    async def execute(self, params: RegisterParams):
         email = params.email
 
-        if self.user_repo.exists_by_email(email):
+        if await self.user_repo.exists_by_email(email):
             raise RecordAlreadyExistsError.user(email)
 
         new_user = User(
             email=email,
             hash_password=self.pass_encoder.encode(params.password),
         )
+        new_user.id = await self.user_repo.save(new_user)
+
         new_cart = Cart(
             user_id=new_user.id,
         )
-
-        self.user_repo.save(new_user)
-        self.cart_repo.save(new_cart)
+        await self.cart_repo.save(new_cart)

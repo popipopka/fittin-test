@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from src.application.error import AuthenticationError
 from src.core.port.input.issue_access_token_port import IssueAccessTokenPort
 from src.core.port.output import RefreshTokenRepository
@@ -27,5 +25,5 @@ class IssueAccessTokenUseCase(IssueAccessTokenPort):
     async def __check_refresh_token_not_revoked(self, user_id: int):
         saved = await self.refresh_token_repo.get_by_user_id(user_id)
 
-        if not saved or datetime.now() >= saved.expires_at:
+        if not saved:
             raise AuthenticationError.revoked_refresh_token()
