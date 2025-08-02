@@ -45,6 +45,10 @@ services:
       - "8025:8025"
 
   app:
+    depends_on:
+      - postgres
+      - minio
+      - mailhog
     build: .
     container_name: local-app
     ports:
