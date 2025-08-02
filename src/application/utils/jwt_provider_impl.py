@@ -18,7 +18,7 @@ class JwtProviderImpl(JwtProvider):
 
     def create_refresh_token(self, user_id: int) -> str:
         claims = {
-            'sub': user_id,
+            'sub': str(user_id),
             'exp': datetime.now(timezone.utc) + REFRESH_EXPIRATION,
             'iat': datetime.now(timezone.utc)
         }
@@ -26,7 +26,7 @@ class JwtProviderImpl(JwtProvider):
 
     def create_access_token(self, user_id: int) -> str:
         claims = {
-            'sub': user_id,
+            'sub': str(user_id),
             'exp': datetime.now(timezone.utc) + ACCESS_EXPIRATION,
             'iat': datetime.now(timezone.utc)
         }
@@ -48,11 +48,11 @@ class JwtProviderImpl(JwtProvider):
 
     def get_sub_from_access_token(self, access_token: str) -> int:
         payload = jwt.decode(access_token, key=ACCESS_SECRET, algorithms=[ALGORITHM])
-        return payload['sub']
+        return int(payload['sub'])
 
     def get_sub_from_refresh_token(self, refresh_token: str) -> int:
         payload = jwt.decode(refresh_token, key=REFRESH_SECRET, algorithms=[ALGORITHM])
-        return payload['sub']
+        return int(payload['sub'])
 
     def get_exp_from_refresh_token(self, refresh_token: str) -> datetime:
         payload = jwt.decode(refresh_token, key=REFRESH_SECRET, algorithms=[ALGORITHM])
