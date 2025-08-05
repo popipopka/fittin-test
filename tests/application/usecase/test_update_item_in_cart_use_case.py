@@ -1,10 +1,10 @@
 from unittest import IsolatedAsyncioTestCase
 from unittest.mock import AsyncMock
 
-from src.application.usecase.update_item_in_cart_use_case import UpdateItemInCartUseCase
-from src.core.error import RecordNotFoundError
-from src.core.model import Cart
-from src.core.model.value import CartItem
+from src.application.error import RecordNotFoundError
+from src.application.model import Cart
+from src.application.model.value import CartItem
+from src.application.usecase import UpdateItemInCartUseCase
 
 
 class TestUpdateItemInCartUseCase(IsolatedAsyncioTestCase):

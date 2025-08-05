@@ -1,16 +1,15 @@
 from typing import Optional, List
 
-from src.application.mappers import to_product_item_data_list
-from src.core.error import RecordNotFoundError
-from src.core.port.input import GetProductsPort
-from src.core.port.output.category_repository import CategoryRepository
-from src.core.port.output.product_image_repository import ProductImageRepository
-from src.core.port.output.product_repository import ProductRepository
-from src.core.shared.params import ProductFilterParams
-from src.core.shared.result.product_item_data import ProductItemData
+from src.application.error import RecordNotFoundError
+from src.application.repository import CategoryRepository
+from src.application.repository import ProductImageRepository
+from src.application.repository import ProductRepository
+from src.application.shared.params import ProductFilterParams
+from src.application.shared.result.product_item_data import ProductItemData
+from src.application.usecase.mapper import to_product_item_data_list
 
 
-class GetProductsUseCase(GetProductsPort):
+class GetProductsUseCase:
 
     def __init__(self,
                  product_repo: ProductRepository,

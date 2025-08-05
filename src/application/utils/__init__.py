@@ -1,2 +1,2 @@
-from .bcrypt_password_encoder import BcryptPasswordEncoder
-from .jwt_provider_impl import JwtProviderImpl
+from .jwt_provider import JwtProvider
+from .password_encoder import PasswordEncoder

@@ -38,6 +38,7 @@ class SmtpConfig(BaseModel):
     port: int = 0
     username: str = ''
     password: str = ''
+    email: str = ''
 
 
 class BaseConfig(BaseSettings):

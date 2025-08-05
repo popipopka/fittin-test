@@ -1,0 +1,1 @@
+from .security import get_authentication_principal

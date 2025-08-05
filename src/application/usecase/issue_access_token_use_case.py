@@ -1,10 +1,9 @@
 from src.application.error import AuthenticationError
-from src.core.port.input.issue_access_token_port import IssueAccessTokenPort
-from src.core.port.output import RefreshTokenRepository
-from src.core.utils import JwtProvider
+from src.application.repository import RefreshTokenRepository
+from src.application.utils import JwtProvider
 
 
-class IssueAccessTokenUseCase(IssueAccessTokenPort):
+class IssueAccessTokenUseCase:
 
     def __init__(self, jwt_provider: JwtProvider, refresh_token_repo: RefreshTokenRepository):
         self.jwt_provider = jwt_provider

@@ -2,9 +2,9 @@ from decimal import Decimal
 from unittest import IsolatedAsyncioTestCase
 from unittest.mock import AsyncMock
 
-from src.application.usecase.get_product_use_case import GetProductUseCase
-from src.core.error import RecordNotFoundError
-from src.core.model import Product
+from src.application.error import RecordNotFoundError
+from src.application.model import Product
+from src.application.usecase import GetProductUseCase
 
 
 class TestGetProductUseCase(IsolatedAsyncioTestCase):

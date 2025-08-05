@@ -1,15 +1,14 @@
-from src.application import to_order_item_list, to_order_created_notifications_params
-from src.core.error import RecordNotFoundError
-from src.core.model import Order, User
-from src.core.port.input import CreateOrderPort
-from src.core.port.output import NotificationSender
-from src.core.port.output.cart_repository import CartRepository
-from src.core.port.output.order_repository import OrderRepository
-from src.core.port.output.product_repository import ProductRepository
-from src.core.port.output.user_repository import UserRepository
+from src.application.error import RecordNotFoundError
+from src.application.model import Order, User
+from src.application.repository import CartRepository
+from src.application.repository import NotificationSender
+from src.application.repository import OrderRepository
+from src.application.repository import ProductRepository
+from src.application.repository import UserRepository
+from src.application.usecase.mapper import to_order_item_list, to_order_created_notifications_params
 
 
-class CreateOrderUseCase(CreateOrderPort):
+class CreateOrderUseCase:
 
     def __init__(self,
                  order_repo: OrderRepository,

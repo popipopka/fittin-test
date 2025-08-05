@@ -5,9 +5,9 @@ from unittest.mock import AsyncMock
 from parameterized import parameterized
 from sortedcontainers import SortedList
 
-from src.application.usecase.get_categories_use_case import GetCategoriesUseCase
-from src.core.model import Category
-from src.core.shared.result import CategoryData
+from src.application.model import Category
+from src.application.shared.result import CategoryData
+from src.application.usecase import GetCategoriesUseCase
 
 
 class TestGetCategoriesUseCase(IsolatedAsyncioTestCase):

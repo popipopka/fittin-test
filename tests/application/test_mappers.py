@@ -3,11 +3,11 @@ from decimal import Decimal
 
 from parameterized import parameterized
 
-from src.application.mappers import to_product_item_data_list, to_cart_item_data_list, to_order_item_list
-from src.core.model import Product
-from src.core.shared.result import CartItemData
-from src.core.shared.result.product_item_data import ProductItemData
-from src.core.model.value import CartItem, OrderItem
+from src.application.model import Product
+from src.application.model.value import CartItem, OrderItem
+from src.application.shared.result import CartItemData
+from src.application.shared.result.product_item_data import ProductItemData
+from src.application.usecase.mapper import to_product_item_data_list, to_cart_item_data_list, to_order_item_list
 
 
 class TestMappers(unittest.TestCase):
