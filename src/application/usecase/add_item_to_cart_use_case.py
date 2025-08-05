@@ -1,12 +1,11 @@
-from src.core.error import RecordNotFoundError
-from src.core.model.value import CartItem
-from src.core.port.input import AddItemToCartPort
-from src.core.port.output import ProductRepository
-from src.core.port.output.cart_repository import CartRepository
-from src.core.port.output.user_repository import UserRepository
+from src.application.error import RecordNotFoundError
+from src.application.model.value import CartItem
+from src.application.repository import CartRepository
+from src.application.repository import ProductRepository
+from src.application.repository import UserRepository
 
 
-class AddItemToCartUseCase(AddItemToCartPort):
+class AddItemToCartUseCase:
 
     def __init__(self, cart_repo: CartRepository, product_repo: ProductRepository, user_repo: UserRepository):
         self.cart_repo = cart_repo

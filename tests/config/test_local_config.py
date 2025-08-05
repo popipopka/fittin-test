@@ -43,6 +43,7 @@ class TestLocalConfig(unittest.TestCase):
         self.assertEqual(1025, config.smtp.port)
         self.assertEqual('', config.smtp.username)
         self.assertEqual('', config.smtp.password)
+        self.assertEqual('fittin@test.ru', config.smtp.email)
 
     @patch.dict(os.environ,
                 {
@@ -87,3 +88,4 @@ class TestLocalConfig(unittest.TestCase):
         self.assertEqual(1025, config.smtp.port)
         self.assertEqual('', config.smtp.username)
         self.assertEqual('', config.smtp.password)
+        self.assertEqual('fittin@test.ru', config.smtp.email)

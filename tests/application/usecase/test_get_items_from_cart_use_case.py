@@ -2,12 +2,11 @@ from decimal import Decimal
 from unittest import IsolatedAsyncioTestCase
 from unittest.mock import AsyncMock
 
-from src.application.usecase.get_items_from_cart_use_case import GetItemsFromCartUseCase
-from src.core.error import RecordNotFoundError
-from src.core.model import Product
-from src.core.model.value import CartItem
-from src.core.shared.result import CartItemData
-from src.core.shared.result.product_item_data import ProductItemData
+from src.application.error import RecordNotFoundError
+from src.application.model import Product
+from src.application.model.value import CartItem
+from src.application.shared.result import CartItemData, ProductItemData
+from src.application.usecase import GetItemsFromCartUseCase
 
 
 class TestGetItemsFromCartUseCase(IsolatedAsyncioTestCase):

@@ -23,34 +23,64 @@
 
 Проект использует архитектуру Clean Architecture с разделением на слои:
 
-- **core** - доменная логика и бизнес-правила
-- **application** - use cases и координация между слоями
-- **adapter** - внешние интерфейсы (API, база данных, файловое хранилище)
+- **interface** - внешние интерфейсы (API, обработка ошибок, безопасность)
+- **application** - бизнес-логика и use cases
+- **infrastructure** - внешние сервисы (база данных, файловое хранилище, SMTP)
 
 ```
 fittin-test/
 ├── src/                            # Исходный код приложения
-│   ├── adapter/                     # Адаптеры
-│   │   ├── input_port_fast_api/       # FastAPI роутеры
-│   │   ├── output_port_postgresql/    # PostgreSQL адаптер
-│   │   ├── output_port_minio/         # MinIO адаптер
-│   │   └── output_port_smtp/          # SMTP адаптер
-│   ├── application/                 # Слой приложения
-│   │   ├── usecase/                   # Бизнес-логика
-│   │   ├── mappers.py                 # Маппинг между слоями
-│   │   └── error/                     # Ошибки приложения
-│   ├── core/                        # Ядро приложения
-│   │   ├── model/                     # Доменные модели
-│   │   ├── port/                      # Интерфейсы портов
-│   │   ├── error/                     # Доменные ошибки
-│   │   └── utils/                     # Утилиты
-│   ├── config/                      # Конфигурация приложения
-│   └── main.py                      # Точка входа приложения
-├── tests/                           # Тесты
-├── docker-compose.local.yaml        # Docker Compose для локальной разработки
-├── Dockerfile                       # Docker образ приложения
-├── requirements.txt                 # Python зависимости
-└── alembic.ini                      # Конфигурация Alembic
+│   ├── interface/                   # Слой интерфейсов
+│   │   ├── api/                      # FastAPI роутеры
+│   │   │   ├── auth_api.py              # Аутентификация
+│   │   │   ├── cart_api.py              # Корзина
+│   │   │   ├── category_api.py          # Категории
+│   │   │   ├── order_api.py             # Заказы
+│   │   │   ├── product_api.py           # Товары
+│   │   │   └── dto/                     # DTO для API
+│   │   ├── dependency/                  # Зависимости FastAPI
+│   │   ├── security/                    # Безопасность и JWT
+│   │   ├── app.py                       # Конфигурация FastAPI приложения
+│   │   └── error_handlers.py            # Обработчики ошибок
+│   ├── application/                  # Слой приложения
+│   │   ├── usecase/                     # Бизнес-логика и use cases
+│   │   │   ├── mapper/                     # Маппинг между слоями
+│   │   │   ├── get_product_use_case.py     # Получение товара
+│   │   │   ├── get_products_use_case.py    # Получение списка товаров
+│   │   │   ├── get_categories_use_case.py  # Получение категорий
+│   │   │   ├── login_use_case.py           # Вход в систему
+│   │   │   ├── register_use_case.py        # Регистрация
+│   │   │   ├── issue_access_token_use_case.py # Выдача токенов
+│   │   │   ├── add_item_to_cart_use_case.py   # Добавление в корзину
+│   │   │   ├── get_items_from_cart_use_case.py # Получение корзины
+│   │   │   ├── update_item_in_cart_use_case.py # Обновление корзины
+│   │   │   ├── remove_item_from_cart_use_case.py # Удаление из корзины
+│   │   │   └── create_order_use_case.py        # Создание заказа
+│   │   ├── model/                       # Доменные модели
+│   │   ├── dto/                         # DTO для приложения
+│   │   ├── repository/                  # Интерфейсы репозиториев
+│   │   ├── error/                       # Ошибки приложения
+│   │   ├── shared/                      # Общие компоненты
+│   │   └── utils/                       # Утилиты
+│   ├── infrastructure/               # Слой инфраструктуры
+│   │   ├── database/                    # Работа с базой данных
+│   │   │   ├── entity/                     # Сущности БД
+│   │   │   ├── repository/                 # Реализации репозиториев
+│   │   │   ├── migrations/                 # Миграции Alembic
+│   │   │   └── database_session.py         # Сессии БД
+│   │   ├── object_storage/                # Файловое хранилище
+│   │   │   ├── minio_client.py                # Клиент MinIO
+│   │   │   └── minio_product_image_repository.py # Репозиторий изображений
+│   │   └── smtp/                         # Отправка email
+│   │       ├── smtp_client.py                # SMTP клиент
+│   │       └── email_sender.py               # Отправка писем
+│   ├── config/                       # Конфигурация приложения
+│   └── main.py                       # Точка входа приложения
+├── tests/                            # Тесты
+├── docker-compose.local.yaml         # Docker Compose для локальной разработки
+├── Dockerfile                        # Docker образ приложения
+├── requirements.txt                  # Python зависимости
+└── alembic.ini                       # Конфигурация Alembic
 ```
 
 ## 🔧 Основные эндпоинты

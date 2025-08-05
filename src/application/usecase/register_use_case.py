@@ -1,12 +1,11 @@
-from src.core.error import RecordAlreadyExistsError
-from src.core.model import User, Cart
-from src.core.port.input.register_port import RegisterPort
-from src.core.port.output import UserRepository, CartRepository
-from src.core.shared.params.register_params import RegisterParams
-from src.core.utils import PasswordEncoder
+from src.application.error import RecordAlreadyExistsError
+from src.application.model import User, Cart
+from src.application.repository import UserRepository, CartRepository
+from src.application.shared.params.register_params import RegisterParams
+from src.application.utils import PasswordEncoder
 
 
-class RegisterUseCase(RegisterPort):
+class RegisterUseCase:
 
     def __init__(self, user_repo: UserRepository, cart_repo: CartRepository, pass_encoder: PasswordEncoder):
         self.user_repo = user_repo

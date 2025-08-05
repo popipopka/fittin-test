@@ -1,11 +1,10 @@
-from src.core.error import RecordNotFoundError
-from src.core.model import Product
-from src.core.port.input import GetProductPort
-from src.core.port.output.product_image_repository import ProductImageRepository
-from src.core.port.output.product_repository import ProductRepository
+from src.application.error import RecordNotFoundError
+from src.application.model import Product
+from src.application.repository import ProductImageRepository
+from src.application.repository import ProductRepository
 
 
-class GetProductUseCase(GetProductPort):
+class GetProductUseCase:
 
     def __init__(self, product_repo: ProductRepository, product_image_repo: ProductImageRepository):
         self.product_repo = product_repo

@@ -33,6 +33,7 @@ class TestBaseConfig(unittest.TestCase):
                     'SMTP__PORT': '100',
                     'SMTP__USERNAME': 'username',
                     'SMTP__PASSWORD': 'password',
+                    'SMTP__EMAIL': 'smtp@email.com',
                 },
                 clear=False
                 )
@@ -66,6 +67,7 @@ class TestBaseConfig(unittest.TestCase):
         self.assertEqual(100, config.smtp.port)
         self.assertEqual('username', config.smtp.username)
         self.assertEqual('password', config.smtp.password)
+        self.assertEqual('smtp@email.com', config.smtp.email)
 
     def test_base_config_default(self):
         # Given
@@ -96,8 +98,9 @@ class TestBaseConfig(unittest.TestCase):
         self.assertEqual(0, config.smtp.port)
         self.assertEqual('', config.smtp.username)
         self.assertEqual('', config.smtp.password)
+        self.assertEqual('', config.smtp.email)
 
-    def test_database_config_url(self):
+    def test_database_config_build_url(self):
         # Given
         database_config = DatabaseConfig(
             user='user',

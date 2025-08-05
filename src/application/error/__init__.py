@@ -1,1 +1,3 @@
 from .authentication_error import AuthenticationError
+from .record_already_exists_error import RecordAlreadyExistsError
+from .record_not_found_error import RecordNotFoundError

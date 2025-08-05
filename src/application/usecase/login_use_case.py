@@ -1,15 +1,14 @@
 from src.application.error import AuthenticationError
-from src.core.error import RecordNotFoundError
-from src.core.model import User
-from src.core.model.refresh_token import RefreshToken
-from src.core.port.input.login_port import LoginPort
-from src.core.port.output import RefreshTokenRepository, UserRepository
-from src.core.shared.params import LoginParams
-from src.core.shared.result import TokensData
-from src.core.utils import PasswordEncoder, JwtProvider
+from src.application.error import RecordNotFoundError
+from src.application.model import User
+from src.application.model.refresh_token import RefreshToken
+from src.application.repository import RefreshTokenRepository, UserRepository
+from src.application.shared.params import LoginParams
+from src.application.shared.result import TokensData
+from src.application.utils import PasswordEncoder, JwtProvider
 
 
-class LoginUseCase(LoginPort):
+class LoginUseCase:
 
     def __init__(self, user_repo: UserRepository, pass_encoder: PasswordEncoder, jwt_provider: JwtProvider,
                  refresh_token_repo: RefreshTokenRepository):

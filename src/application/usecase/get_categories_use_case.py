@@ -1,12 +1,11 @@
 from typing import List, Dict
 
-from src.core.model import Category
-from src.core.port.input import GetCategoriesPort
-from src.core.port.output.category_repository import CategoryRepository
-from src.core.shared.result import CategoryData
+from src.application.model import Category
+from src.application.repository import CategoryRepository
+from src.application.shared.result import CategoryData
 
 
-class GetCategoriesUseCase(GetCategoriesPort):
+class GetCategoriesUseCase:
 
     def __init__(self, category_repo: CategoryRepository):
         self.category_repo = category_repo

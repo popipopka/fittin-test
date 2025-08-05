@@ -32,6 +32,7 @@ class LocalConfig(BaseConfig):
         username='',
         port=1025,
         password='',
+        email='fittin@test.ru'
     )
 
     @model_validator(mode='after')

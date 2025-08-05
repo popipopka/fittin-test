@@ -2,11 +2,11 @@ from decimal import Decimal
 from unittest import IsolatedAsyncioTestCase
 from unittest.mock import AsyncMock
 
-from src.application.usecase.get_products_use_case import GetProductsUseCase
-from src.core.error import RecordNotFoundError
-from src.core.model import Product
-from src.core.shared.params import ProductFilterParams
-from src.core.shared.result.product_item_data import ProductItemData
+from src.application.error import RecordNotFoundError
+from src.application.model import Product
+from src.application.shared.params import ProductFilterParams
+from src.application.shared.result import ProductItemData
+from src.application.usecase import GetProductsUseCase
 
 
 class TestGetProductsUseCase(IsolatedAsyncioTestCase):

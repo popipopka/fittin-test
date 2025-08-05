@@ -1,16 +1,15 @@
 from typing import List
 
-from src.application import to_cart_item_data_list
-from src.core.error import RecordNotFoundError
-from src.core.port.input import GetItemsFromCartPort
-from src.core.port.output.cart_repository import CartRepository
-from src.core.port.output.product_image_repository import ProductImageRepository
-from src.core.port.output.product_repository import ProductRepository
-from src.core.port.output.user_repository import UserRepository
-from src.core.shared.result.cart_item_data import CartItemData
+from src.application.error import RecordNotFoundError
+from src.application.repository import CartRepository
+from src.application.repository import ProductImageRepository
+from src.application.repository import ProductRepository
+from src.application.repository import UserRepository
+from src.application.shared.result.cart_item_data import CartItemData
+from src.application.usecase.mapper import to_cart_item_data_list
 
 
-class GetItemsFromCartUseCase(GetItemsFromCartPort):
+class GetItemsFromCartUseCase:
     
     def __init__(self, cart_repo: CartRepository, user_repo: UserRepository, product_repo: ProductRepository, product_image_repo: ProductImageRepository):
         self.cart_repo = cart_repo

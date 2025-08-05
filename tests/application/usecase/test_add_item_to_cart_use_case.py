@@ -1,10 +1,10 @@
 from unittest import IsolatedAsyncioTestCase
 from unittest.mock import AsyncMock
 
-from src.application.usecase.add_item_to_cart_use_case import AddItemToCartUseCase
-from src.core.error import RecordNotFoundError, RecordAlreadyExistsError
-from src.core.model import Cart
-from src.core.model.value import CartItem
+from src.application.error import RecordNotFoundError, RecordAlreadyExistsError
+from src.application.model import Cart
+from src.application.model.value import CartItem
+from src.application.usecase import AddItemToCartUseCase
 
 
 class TestAddItemToCartUseCase(IsolatedAsyncioTestCase):
